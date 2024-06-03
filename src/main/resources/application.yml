@@ -21,7 +21,7 @@ spring:
   # todo 需替换配置
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/smartbi
+    url: jdbc:mysql://localhost:3377/smartbi
     username: root
     password: fcx19960120
   # Redis 配置
@@ -100,4 +100,4 @@ knife4j:
       default:
         api-rule: package
         api-rule-resources:
-          - com.yupi.springbootinit.controller
+          - com.chenxin.smartbibackend.controller

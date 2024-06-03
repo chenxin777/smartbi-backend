@@ -1,35 +1,37 @@
-package com.chenxin.smartbibackend.model.dto.user;
+package com.chenxin.smartbibackend.model.dto.chart;
 
-import java.io.Serializable;
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
- * 用户更新请求
+ * 编辑请求
  *
  * @author <a href="https://github.com/lichenxin">程序员鱼皮</a>
  * @from <a href="https://chenxin.icu">编程导航知识星球</a>
  */
 @Data
-public class UserUpdateRequest implements Serializable {
+public class ChartEditRequest implements Serializable {
+
     /**
      * id
      */
     private Long id;
 
     /**
-     * 用户昵称
+     * 目标
      */
-    private String userName;
+    private String goal;
 
     /**
-     * 用户头像
+     * 图表数据
      */
-    private String userAvatar;
+    private String chartData;
 
     /**
-     * 用户角色：user/admin/ban
+     * 图表类型
      */
-    private String userRole;
+    private String chartType;
 
     private static final long serialVersionUID = 1L;
 }
