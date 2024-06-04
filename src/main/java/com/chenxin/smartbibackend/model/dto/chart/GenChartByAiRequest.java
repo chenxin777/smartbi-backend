@@ -1,25 +1,22 @@
 package com.chenxin.smartbibackend.model.dto.chart;
 
-import com.chenxin.smartbibackend.common.PageRequest;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
 
 /**
- * 查询请求
+ * 文件上传请求
  *
  * @author <a href="https://github.com/lichenxin">程序员鱼皮</a>
  * @from <a href="https://chenxin.icu">编程导航知识星球</a>
  */
-@EqualsAndHashCode(callSuper = true)
 @Data
-public class ChartQueryRequest extends PageRequest implements Serializable {
+public class GenChartByAiRequest implements Serializable {
 
     /**
-     * id
+     * 图表名称
      */
-    private Long id;
+    private String chartName;
 
     /**
      * 目标
@@ -27,19 +24,10 @@ public class ChartQueryRequest extends PageRequest implements Serializable {
     private String goal;
 
     /**
-     * 目标
-     */
-    private String chartName;
-
-    /**
      * 图表类型
      */
     private String chartType;
 
-    /**
-     * 用户id
-     */
-    private Long userId;
-
+    
     private static final long serialVersionUID = 1L;
 }

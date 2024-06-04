@@ -34,10 +34,10 @@ spring:
     password: 123456
   # Elasticsearch 配置
   # todo 需替换配置，然后取消注释
-#  elasticsearch:
-#    uris: http://localhost:9200
-#    username: root
-#    password: 123456
+  #  elasticsearch:
+  #    uris: http://localhost:9200
+  #    username: root
+  #    password: 123456
   # 文件上传
   servlet:
     multipart:
@@ -101,3 +101,8 @@ knife4j:
         api-rule: package
         api-rule-resources:
           - com.chenxin.smartbibackend.controller
+# 鱼API
+yuapi:
+  client:
+    access-key: 7apn8b208rzcvcg3heeju3ey47pgvybo
+    secret-key: 33kofldm63rfd6tagaungw5hi0zckwop
