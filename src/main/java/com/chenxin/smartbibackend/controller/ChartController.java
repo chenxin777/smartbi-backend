@@ -1,5 +1,6 @@
 package com.chenxin.smartbibackend.controller;
 
+import cn.hutool.core.io.FileUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.chenxin.smartbibackend.annotation.AuthCheck;
@@ -12,6 +13,7 @@ import com.chenxin.smartbibackend.constant.UserConstant;
 import com.chenxin.smartbibackend.exception.BusinessException;
 import com.chenxin.smartbibackend.exception.ThrowUtils;
 import com.chenxin.smartbibackend.manager.AiManager;
+import com.chenxin.smartbibackend.manager.RedisLimiterManager;
 import com.chenxin.smartbibackend.model.dto.chart.*;
 import com.chenxin.smartbibackend.model.entity.Chart;
 import com.chenxin.smartbibackend.model.entity.User;
@@ -28,6 +30,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * 帖子接口
@@ -48,6 +52,9 @@ public class ChartController {
 
     @Resource
     private AiManager aiManager;
+
+    @Resource
+    private RedisLimiterManager redisLimiterManager;
 
     private QueryWrapper<Chart> getQueryWrapper(ChartQueryRequest chartQueryRequest) {
         QueryWrapper<Chart> queryWrapper = new QueryWrapper<>();
@@ -239,6 +246,17 @@ public class ChartController {
         ThrowUtils.throwIf(StringUtils.isBlank(goal), ErrorCode.PARAMS_ERROR, "目标为空");
         ThrowUtils.throwIf(StringUtils.isNotBlank(chartName) && chartName.length() > 100, ErrorCode.PARAMS_ERROR, "图表名称过长");
         ThrowUtils.throwIf(StringUtils.isBlank(chartName), ErrorCode.PARAMS_ERROR, "图表名称为空");
+
+        // 校验文件
+        String originalFilename = multipartFile.getOriginalFilename();
+        long fileSize = multipartFile.getSize();
+        final long ONE_MB = 1024 * 1024L;
+        String suffix = FileUtil.getSuffix(originalFilename);
+        final List<String> validFileSuffix = Arrays.asList("png", "jpg", "svg", "webp", "jpeg", "xlsx", "xls");
+        ThrowUtils.throwIf(!validFileSuffix.contains(suffix), ErrorCode.PARAMS_ERROR, "文件类型不支持");
+        ThrowUtils.throwIf(fileSize > ONE_MB, ErrorCode.PARAMS_ERROR, "文件大于1MB");
+        // 限流
+        redisLimiterManager.doRateLimit("genChartByAi_" + String.valueOf(loginUser.getId()));
 
 //        final String prompt = "你是一名数据分析师和前端开发专家，接下来我会按照以下固定格式给你提供内容：\n" +
 //                "分析需求：\n" +
