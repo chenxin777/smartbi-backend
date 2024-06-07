@@ -35,7 +35,7 @@ public class AiManager {
         devChatRequest.setModelId(modelId);
         devChatRequest.setMessage(message);
         BaseResponse<DevChatResponse> response = yuCongMingClient.doChat(devChatRequest);
-        ThrowUtils.throwIf(response == null, ErrorCode.SYSTEM_ERROR, "AI响应异常");
+        ThrowUtils.throwIf(response == null || response.getData() == null, ErrorCode.SYSTEM_ERROR, "AI响应异常");
         return response.getData().getContent();
     }
 }
