@@ -11,4 +11,5 @@ import com.chenxin.smartbibackend.model.entity.Chart;
  */
 public interface ChartService extends IService<Chart> {
 
+    void handleChartUpdateError(long chartId, String execMessage);
 }
